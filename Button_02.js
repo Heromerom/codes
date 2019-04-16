@@ -38,7 +38,7 @@ function draw() {
      }
 
   // DESENHAR FORMAS
-  background(220);
+  background(50);
 
   noStroke();
   fill(caixa.cor);
