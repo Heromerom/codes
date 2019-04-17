@@ -1,10 +1,19 @@
+
 var jogador = {
   x:200,     // Posição X inicial da nave.
   y:200,     // Posição Y inicial da nave
   HP:100,    // Pontos de vida do personagem.
-  score:0,   // Pontuação do jogador.
-  tiro:false // Checa se o jogador está atirando ou não.
+  score:0,   // Pontuação do jogador.  
 }
+
+var tiro = {
+  x:0,
+  y:0,
+  width:5,
+  height:9,
+  on:false // Checa se o jogador está atirando ou não.
+}
+
 var area = {
   // ÁREA DO BOTÃO START
   x:165,
@@ -12,14 +21,16 @@ var area = {
   width:70,
   height:20,
   on:false
-  
 }
 
 var obstaculo = {
- x:200
+ x:200,
+ y:100,
+ width:0,
+ height:0
 }
 
-var bg = 50;
+var bg = 50; // Cor do background.
 
 var tela = 0;
 
@@ -33,6 +44,10 @@ var texto = {
 function setup() {
   createCanvas(400, 400);
   fullscreen();
+  
+  tiro.x = jogador.x
+  tiro.y = jogador.y
+  
 }
 
 function draw() {
@@ -69,15 +84,11 @@ o jogo iniciar.
   }
     
   background(bg);
-  
-    
     
   fill(texto.colors);
   textSize(texto.size);
   textAlign(CENTER);
-  text("START",200,200);
-    
-    
+  text("START",200,200);  
     
   }
   
@@ -86,30 +97,65 @@ Nesta tela, o jogo irá começar.
 */
   
   if(tela == 1){
+    
   // MOVIMENTAÇÃO
-    if((keyIsDown(UP_ARROW)))    {jogador.y -= 5}
-    if((keyIsDown(DOWN_ARROW)))  {jogador.y += 5}
-    if((keyIsDown(LEFT_ARROW)))  {jogador.x -= 5}  
-    if((keyIsDown(RIGHT_ARROW))) {jogador.x += 5}  
+    if((keyIsDown(UP_ARROW)))    {jogador.y -= 5} // Checa se a seta ↑ foi pressionada.
+    if((keyIsDown(DOWN_ARROW)))  {jogador.y += 5} // Checa se a seta ↓ foi pressionada.
+    if((keyIsDown(LEFT_ARROW)))  {jogador.x -= 5} // Checa se a seta ← foi pressionada. 
+    if((keyIsDown(RIGHT_ARROW))) {jogador.x += 5} // Checa se a seta → foi pressionada.
+  
   
   // MOVIMENTAR OBSTÁCULO
-    obstaculo.x += 3;
+    obstaculo.x += 2;
     
-    if(obstaculo.x > 430){
-     obstaculo.x = -60 
+    if (obstaculo.x > 430){
+     obstaculo.x = -60 // Se o obstáculo sair da tela, ele retorna pelo outro lado.
     }
-  // DESENHAR FORMAS
+    
+  // DISPARO  
+    if((keyIsDown(CONTROL))){
+      tiro.on = true;
+      tela = 2;
+    }
+    
+    if(tiro.on){
+      
+      tiro.y -= 5
+    }else{
+      tiro.x = jogador.x
+      tiro.y = jogador.y 
+    }
+    
+    if(tiro.y < 0){
+      tiro.on = false;
+    }
+    
+  // UI
     background(bg);
     fill(45);
     noStroke();
     rect(0,370,400,30);
     
-    fill(150);
+    // TEXTOS NA TELA
+    fill(190);
     textSize(10);
-    fill(255,jogador.HP);
-    text("HP: "+jogador.HP,30,390);
-    text("SCORE:"+jogador.score,90,390);
+    
+    fill(200);
+    text("HP: ",30,390);
+    fill(0,200,200);
+    text(jogador.HP,48,390);
+    
+    fill(200);
+    text("SCORE: ",90,390);
+    fill(0,200,200);
+    text(jogador.score,125,390);
+    
+    
 
+  // TIRO
+    fill('red');
+    ellipse(tiro.x + 10,tiro.y,tiro.width,tiro.height);  
+    
   // JOGADOR
     fill('white');
     ellipse(jogador.x,jogador.y,10,30);
@@ -118,14 +164,50 @@ Nesta tela, o jogo irá começar.
     
   // OBSTÁCULO
     fill('red');
-    rect(obstaculo.x,100,30,30)
+    rect(obstaculo.x,obstaculo.y,30,30)
+    fill('white')
+    textSize(9);
+    text('Enemy',obstaculo.x + 15,obstaculo.y + 18);
+ 
+  }
+
+ /* TERCEIRA TELA
+Nesta tela, o jogador sofrerá GAME OVER.
+*/
+if(tela == 2){
+  if(mouseX > 166 &&
+       mouseX < 234 &&
+       mouseY > 181 &&
+       mouseY < 202){
+    
+        area.on = true;
+      
+    }else{
+        area.on = false;
+    }
     
     
+  if(area.on){
+      texto.colors = 255;
+      //texto.size = 25;
+      cursor('pointer');
+  }else{
+      texto.colors = 200;
+      //texto.size = 20;
+      cursor();
+  }
+    
+  background(bg);
+    
+  fill(texto.colors);
+  textSize(texto.size);
+  textAlign(CENTER);
+  text("GAME OVER",200,200);  
     
   }
-  
-  
 }
+ 
+
 
 function mouseClicked(){
   
