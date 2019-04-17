@@ -1,3 +1,9 @@
+/* 
+    Equipe: 
+        MARCEL PINHEIRO DE CARVALHO - Subturma C (Líder) 
+        Etapas: 1, 2, 3, 4 e 5.
+*/
+
 
 var jogador = {
   x:200,     // Posição X inicial da nave.
@@ -56,6 +62,11 @@ function draw() {
 /* PRIMEIRA TELA
 Nesta tela, o jogador terá que clicar no botão START para
 o jogo iniciar.
+
+O QUE FALTA FAZER?
+  - Botão de START com melhor interação;
+  - Highscore;
+
 */ 
 
   if(tela == 0){
@@ -94,6 +105,13 @@ o jogo iniciar.
   
 /* SEGUNDA TELA
 Nesta tela, o jogo irá começar.
+
+O QUE FALTA FAZER?
+  COLISÃO:
+    - Detectar colisão entre a nave do jogador e os objetos do cenário;
+    - Detectar quando o disparo atingir um inimigo;
+    - Impedir a nave de se movimentar por cima da UI e além do área do Canvas;
+ 
 */
   
   if(tela == 1){
