@@ -230,9 +230,16 @@ if(tela == 2){
 function mouseClicked(){
   
   if(area.on == true){
-    texto.size = 10;
-    bg = 30
-    tela = 1;
+    
+    if(tela == 0){
+        bg = 30
+        tela = 1;
+    }
+
+    if(tela == 2){
+        bg = 50
+        tela = 0;
+    }
     cursor();
   }
 }
