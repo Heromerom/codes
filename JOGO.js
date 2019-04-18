@@ -10,6 +10,7 @@ var jogador = {
   y:200,     // Posição Y inicial da nave
   HP:100,    // Pontos de vida do personagem.
   score:0,   // Pontuação do jogador.  
+  high:0     // Pontuação mais alta.
 }
 
 var tiro = {
@@ -100,6 +101,8 @@ O QUE FALTA FAZER?
   textSize(texto.size);
   textAlign(CENTER);
   text("START",200,200);  
+
+  text("Highscore: "+jogador.high,200,350);
     
   }
   
@@ -133,11 +136,9 @@ O QUE FALTA FAZER?
   // DISPARO  
     if((keyIsDown(CONTROL))){
       tiro.on = true;
-      tela = 2;
     }
     
     if(tiro.on){
-      
       tiro.y -= 5
     }else{
       tiro.x = jogador.x
