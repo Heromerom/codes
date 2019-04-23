@@ -102,7 +102,9 @@ O QUE FALTA FAZER?
   textAlign(CENTER);
   text("START",200,200);  
 
-  text("Highscore: "+jogador.high,200,350);
+  textSize(10);
+  fill(255);
+  text("HIGHSCORE: "+jogador.high,200,350);
     
   }
   
@@ -244,4 +246,3 @@ function mouseClicked(){
     cursor();
   }
 }
-
