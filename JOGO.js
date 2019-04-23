@@ -33,8 +33,8 @@ var area = {
 var obstaculo = {
  x:200,
  y:100,
- width:0,
- height:0
+ width:30,
+ height:30
 }
 
 var bg = 50; // Cor do background.
@@ -51,7 +51,7 @@ var texto = {
 function setup() {
   createCanvas(400, 400);
   fullscreen();
-  
+  frameRate(30);
   tiro.x = jogador.x
   tiro.y = jogador.y
   
@@ -63,11 +63,9 @@ function draw() {
 /* PRIMEIRA TELA
 Nesta tela, o jogador terá que clicar no botão START para
 o jogo iniciar.
-
 O QUE FALTA FAZER?
   - Botão de START com melhor interação;
-  - Highscore;
-
+ 
 */ 
 
   if(tela == 0){
@@ -110,11 +108,9 @@ O QUE FALTA FAZER?
   
 /* SEGUNDA TELA
 Nesta tela, o jogo irá começar.
-
 O QUE FALTA FAZER?
   COLISÃO:
     - Detectar colisão entre a nave do jogador e os objetos do cenário;
-    - Detectar quando o disparo atingir um inimigo;
     - Impedir a nave de se movimentar por cima da UI e além do área do Canvas;
  
 */
@@ -129,7 +125,7 @@ O QUE FALTA FAZER?
   
   
   // MOVIMENTAR OBSTÁCULO
-    obstaculo.x += 2;
+    obstaculo.x += 0;
     
     if (obstaculo.x > 430){
      obstaculo.x = -60 // Se o obstáculo sair da tela, ele retorna pelo outro lado.
@@ -141,7 +137,7 @@ O QUE FALTA FAZER?
     }
     
     if(tiro.on){
-      tiro.y -= 5
+      tiro.y -= 15
     }else{
       tiro.x = jogador.x
       tiro.y = jogador.y 
@@ -149,6 +145,51 @@ O QUE FALTA FAZER?
     
     if(tiro.y < 0){
       tiro.on = false;
+    }
+    
+    // COLISÃO DO TIRO COM O OBSTÁCULO
+  if(tiro.on){
+    if(tiro.x + tiro.width  >= obstaculo.x &&
+       tiro.x + tiro.width  <= obstaculo.x + obstaculo.width &&
+       tiro.y + tiro.height >= obstaculo.y &&
+       tiro.y + tiro.height <= obstaculo.y + obstaculo.height){
+      
+        tiro.on = false;
+        tiro.x = jogador.x;
+        tiro.y = jogador.y;
+        jogador.score += 5;
+    }
+  }
+    
+    
+    // COLISÃO DO JOGADOR COM O OBSTÁCULO (precisa ser ajeitado)
+    if(jogador.x + 15 >= obstaculo.x &&
+       jogador.x + 15  <= obstaculo.x + obstaculo.width &&
+       jogador.y + 15  >= obstaculo.y &&
+       jogador.y + 15 <= obstaculo.y + obstaculo.height){
+      
+        
+        jogador.HP -= 5;
+    }
+    
+    
+    
+    // TELA GAME OVER
+    if(jogador.HP <= 0){
+      
+      tela = 2
+      jogador.HP = 100;
+      jogador.x = 200;
+      jogador.y = 200;
+      
+      // HIGHSCORE
+      if(jogador.score > jogador.high){
+        jogador.high = jogador.score;
+        jogador.score = 0;
+      }else{
+        jogador.score = 0;
+      }
+    
     }
     
   // UI
@@ -185,12 +226,15 @@ O QUE FALTA FAZER?
     
   // OBSTÁCULO
     fill('red');
-    rect(obstaculo.x,obstaculo.y,30,30)
+    rect(obstaculo.x,obstaculo.y,obstaculo.width,obstaculo.height)
     fill('white')
     textSize(9);
     text('Enemy',obstaculo.x + 15,obstaculo.y + 18);
  
   }
+  
+  
+
 
  /* TERCEIRA TELA
 Nesta tela, o jogador sofrerá GAME OVER.
