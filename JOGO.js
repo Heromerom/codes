@@ -46,6 +46,7 @@ var texto = {
   size:20
 }
 
+var movimentacao = false;
 
 
 function setup() {
@@ -108,11 +109,7 @@ O QUE FALTA FAZER?
   
 /* SEGUNDA TELA
 Nesta tela, o jogo irá começar.
-O QUE FALTA FAZER?
-  COLISÃO:
-    - Detectar colisão entre a nave do jogador e os objetos do cenário;
-    - Impedir a nave de se movimentar por cima da UI e além do área do Canvas;
- 
+   
 */
   
   if(tela == 1){
@@ -123,9 +120,34 @@ O QUE FALTA FAZER?
     if((keyIsDown(LEFT_ARROW)))  {jogador.x -= 5} // Checa se a seta ← foi pressionada. 
     if((keyIsDown(RIGHT_ARROW))) {jogador.x += 5} // Checa se a seta → foi pressionada.
   
-  
+  // Checa se o personagem está na área do obstáculo.
+  if(jogador.y + 15 > 370 ||
+     jogador.y - 15 < 0   ||
+     jogador.x + 25 > 400 ||
+     jogador.x - 5 < 0){
+      movimentacao = true;
+  }
+    // LIMITAR MOVIMENTAÇÃO
+  if(movimentacao){
+    if(jogador.y + 15 > 370){
+      jogador.y -= 5
+      movimentacao = false;
+    }
+    if (jogador.y - 15 < 0){
+      jogador.y += 5
+      movimentacao = false;
+    }
+    if(jogador.x + 25 > 400){
+      jogador.x -= 5
+      movimentacao = false;
+    }
+    if (jogador.x - 5< 0){
+      jogador.x += 5
+      movimentacao = false;
+    }
+  }
   // MOVIMENTAR OBSTÁCULO
-    obstaculo.x += 0;
+    obstaculo.x += 3;
     
     if (obstaculo.x > 430){
      obstaculo.x = -60 // Se o obstáculo sair da tela, ele retorna pelo outro lado.
@@ -162,14 +184,15 @@ O QUE FALTA FAZER?
   }
     
     
+    
     // COLISÃO DO JOGADOR COM O OBSTÁCULO (precisa ser ajeitado)
-    if(jogador.x + 15 >= obstaculo.x &&
-       jogador.x + 15  <= obstaculo.x + obstaculo.width &&
-       jogador.y + 15  >= obstaculo.y &&
-       jogador.y + 15 <= obstaculo.y + obstaculo.height){
-      
+    if(jogador.x + 20 >= obstaculo.x &&
+       jogador.x - 30  <= obstaculo.x &&
+       jogador.y + 15  > obstaculo.y &&
+       jogador.y - 15 <= obstaculo.y + obstaculo.height){
         
-        jogador.HP -= 5;
+        jogador.HP -= 5; // Jogador perde vida ao colidir.
+      
     }
     
     
@@ -232,6 +255,8 @@ O QUE FALTA FAZER?
     text('Enemy',obstaculo.x + 15,obstaculo.y + 18);
  
   }
+  
+
   
   
 
