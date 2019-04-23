@@ -38,9 +38,7 @@ function draw() {
       
   // UI
     background(bg);
-    fill(45);
     noStroke();
-    rect(0,370,400,30);
       
        
   // JOGADOR
@@ -54,12 +52,8 @@ function draw() {
     rect(obstaculo.x,obstaculo.y,30,30)
     fill('white')
     textSize(9);
-    text('Enemy',obstaculo.x + 15,obstaculo.y + 18);
+    text('Enemy',obstaculo.x,obstaculo.y + 18);
  
   }
-
-
- 
-
 
 
