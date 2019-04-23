@@ -10,7 +10,8 @@ var jogador = {
   y:200,     // Posição Y inicial da nave
   HP:100,    // Pontos de vida do personagem.
   score:0,   // Pontuação do jogador.  
-  high:0     // Pontuação mais alta.
+  high:0,    // Pontuação mais alta.
+  HP_color: 35
 }
 
 var tiro = {
@@ -198,6 +199,10 @@ Nesta tela, o jogo irá começar.
     
     
     // TELA GAME OVER
+    if(jogador.HP > 70 && jogador.HP <= 100){jogador.HP_color = 'green';}
+    if(jogador.HP > 45 && jogador.HP <= 70){jogador.HP_color = 'yellow';}
+    if(jogador.HP > 0 && jogador.HP <= 45){jogador.HP_color = 'red';}
+    
     if(jogador.HP <= 0){
       
       tela = 2
@@ -220,20 +225,25 @@ Nesta tela, o jogo irá começar.
     fill(45);
     noStroke();
     rect(0,370,400,30);
+    fill(35);
+    rect(0,370,400,3);
     
     // TEXTOS NA TELA
     fill(190);
     textSize(10);
     
-    fill(200);
-    text("HP: ",30,390);
-    fill(0,200,200);
-    text(jogador.HP,48,390);
-    
-    fill(200);
-    text("SCORE: ",90,390);
     fill(0,200,200);
     text(jogador.score,125,390);
+    
+    fill(jogador.HP_color);
+    text(jogador.HP,48,390);
+    
+    
+    fill(200);
+    text("HP: ",30,390);
+    fill(200);
+    text("SCORE: ",90,390);
+    
     
     
 
